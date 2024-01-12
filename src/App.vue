@@ -1,5 +1,6 @@
 <template>
   <div class="conteiner">
+    <div v-if="juego">
     <div class="cabecera">
       <label>Puntaje: {{ puntaje }}</label>
       <label>Intento: {{ intento }}</label>
@@ -10,16 +11,18 @@
     <div class="boton">
       <button @click="consumirAPI">Jugar</button>
     </div>
+  </div>
+    <div v-else>
+      <div v-if="juegoTerminado  && puntaje < 10 && intento === maxIntentos" style="color: red">
+        <p>Has utilizado tus 5 intentos. El juego ha terminado, inténtalo nuevamente.</p>
+      </div>
+      <div v-if="juegoTerminado && puntaje >= 10" style="color: blue">
+        <p>Puntaje: {{ puntaje }}. ¡Felicitaciones! Has ganado un premio de $10,000.00.</p> 
+      </div>
 
-    <div v-if="juegoTerminado  && puntaje < 10 && intento === maxIntentos" style="color: red">
-      <p>Has utilizado tus 5 intentos. El juego ha terminado, inténtalo nuevamente.</p>
-    </div>
-    <div v-if="juegoTerminado && puntaje >= 10" style="color: blue">
-       <p>Puntaje: {{ puntaje }}. ¡Felicitaciones! Has ganado un premio de $10,000.00.</p> 
-    </div>
-
-    <div v-if="juegoTerminado">
-      <button @click="nuevoJuego">Nuevo Juego</button>
+      <div v-if="juegoTerminado">
+        <button @click="nuevoJuego">Nuevo Juego</button>
+      </div>
     </div>
 </div>
 </template>
@@ -44,6 +47,7 @@ export default {
       ],
       maxIntentos: 5,
       juegoTerminado: false,
+      juego: true,
     };
   },
   methods: {
@@ -81,6 +85,7 @@ export default {
 
       if (this.intento >= this.maxIntentos || this.puntaje >= 10) {
         this.juegoTerminado = true;
+        this.juego = false;
       }
     },
   },
@@ -88,7 +93,14 @@ export default {
     this.puntaje = 0;
     this.intento = 0;
     this.respuesta = [];
+    this.imagenes = [
+        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/1.svg",
+        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/2.svg",
+        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/3.svg",
+      ],
     this.juegoTerminado = false;
+    this.maxIntentos= 5;
+    this.juego= true;
   },
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div class="cuadro">
-    <img :src="imagen" alt="" />
+    <img :src="imagen" alt="pokemones" />
     <label>{{ nombre }}</label>
   </div>
 </template>
